@@ -154,6 +154,7 @@ namespace aruhaz_rendszer
 
         static void Vasarlas()
         {
+            int penz = 0;
             Console.WriteLine("Bevásárlás folyamatban...");
             for (int i = 0; i < kosar.Count; i++)
             {
@@ -174,11 +175,58 @@ namespace aruhaz_rendszer
                 else
                 {
                     raktarMennyisegek[index] -= mennyiseg;
-                    Console.WriteLine($"Sikeresen megvásárolt: {termek}, {mennyiseg} db.");
+                    penz += termekAr[index];
+                    Console.WriteLine($"Sikeresen megvásárolt: {termek} ({termekAr[index]}), {mennyiseg} db.");
                 }
             }
 
+            Console.WriteLine($"A termékekért fizetett pontos összeg: {penz} ft.");
             kosar.Clear();
+        }
+
+        static void legdragabb()
+        {
+            int legdragabb = termekAr[0];
+            int index = 0;
+            for (int i = 0; i < raktarTermekek.Length; i++)
+            {
+                if (termekAr[i] > legdragabb)
+                {
+                    legdragabb = termekAr[i];
+                    index = i;
+                }
+            }
+            Console.WriteLine($"A legdrágább termék: {raktarTermekek[index]} ({termekAr[index]})");
+        }
+
+        static void legolcsobb()
+        {
+            int legolcsobb = termekAr[0];
+            int index = 0;
+            for (int i = 0; i < raktarTermekek.Length; i++)
+            {
+                if (termekAr[i] < legolcsobb)
+                {
+                    legolcsobb = termekAr[i];
+                    index = i;
+                }
+            }
+            Console.WriteLine($"A legolcsóbb termék: {raktarTermekek[index]} ({termekAr[index]})");
+        }
+
+        static void statisztika()
+        {
+            int ossz = 0;
+            for (int i = 0; i < mennyisegek.Count; i++)
+            {
+                ossz += mennyisegek[i];
+            }
+            Console.WriteLine($"Jelenleg {ossz} darab termék van a kosárban, és ezek közül {kosar.Count()} termék más.");
+        }
+
+        static void raktarKeszlet()
+        {
+
         }
     }
 }
