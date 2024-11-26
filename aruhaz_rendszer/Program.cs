@@ -75,6 +75,10 @@ namespace aruhaz_rendszer
                             break;
                         case 13:
                             Rendezes();
+                            for (int i = 0; i < raktarTermekek.Length; i++) 
+                            { 
+                                Console.WriteLine($"{raktarTermekek[i]}: {termekAr[i]} Ft"); 
+                            }
                             break;
                         case 14:
                             Console.WriteLine("Kilépés...");
@@ -337,7 +341,7 @@ namespace aruhaz_rendszer
 
         static void Rendezes()
         {
-            Console.WriteLine("Termékek rendezése ár szerint:");
+            Array.Sort(termekAr, raktarTermekek);
         }
     }
 }
