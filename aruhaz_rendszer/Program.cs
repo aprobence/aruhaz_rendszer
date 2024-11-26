@@ -4,9 +4,10 @@ namespace aruhaz_rendszer
 {
     internal class Program
     {
-        static string[] raktarTermekek = new string[10];
-        static int[] termekAr = new int[10];
-        static int[] raktarMennyisegek = new int[10];
+        static string[] raktarTermekek = new string[] {"kenyér", "rizs", "tészta", "paradicsom"};
+        static int[] termekAr =new int[] {1000, 1500, 2000, 500};
+        static int[] raktarMennyisegek =new int[] {100, 45, 35, 22};
+
 
         static List<string> kosar = new List<string>();
         static List<int> mennyisegek = new List<int>();
@@ -16,11 +17,20 @@ namespace aruhaz_rendszer
                 while (fut == true)
                 {
                     Console.WriteLine("Áruház rendszer");
-                    Console.WriteLine("1. Raktárkészlet kezelése");
-                    Console.WriteLine("2. Vásárlói kosár kezelése.");
-                    Console.WriteLine("3. Vásárlási műveletek szimulálása.");
-                    Console.WriteLine("4. Statisztikák előállítása");
-                    Console.WriteLine("5. Kilépés");
+                    Console.WriteLine("1. Termékek megjelenítése a raktárból");
+                    Console.WriteLine("2. Termék hozzáadása a kosárhoz");
+                    Console.WriteLine("3. Kosár tartalmának megjelenítése");
+                    Console.WriteLine("4. Termék eltávolítása a kosárból");
+                    Console.WriteLine("5. Kosár ürítése");
+                    Console.WriteLine("6. Vásárlás szimuláció");
+                    Console.WriteLine("7. Legdrágább termék a raktárban");
+                    Console.WriteLine("8. Legolcsóbb termék a raktárban");
+                    Console.WriteLine("9. Kosár statisztika");
+                    Console.WriteLine("10. Raktárkészlet ellenőrzése");
+                    Console.WriteLine("11. Kosár teljes értéke");
+                    Console.WriteLine("12. Új termék felvétele a raktárba");
+                    Console.WriteLine("13. Termékek rendezése ár szerint");
+                    Console.WriteLine("14. Kilépés");
                     Console.Write("Válassz egy opciót: ");
 
                     int opcio = Convert.ToInt32(Console.ReadLine());
@@ -37,9 +47,36 @@ namespace aruhaz_rendszer
                             kosarMegjelenites();
                             break;
                         case 4:
-                            ListaMegtekintes();
+                            termekEltavolitas();
                             break;
                         case 5:
+                            kosarUrites();
+                            break;
+                        case 6:
+                            Vasarlas();
+                            break;
+                        case 7:
+                            legdragabb();
+                            break;
+                        case 8:
+                            legolcsobb();
+                            break;
+                        case 9:
+                            statisztika();
+                            break;
+                        case 10:
+                            raktarKeszlet();
+                            break;
+                        case 11:
+                            kosarErtek();
+                            break;
+                        case 12:
+                            Hozzaadas();
+                            break;
+                        case 13:
+                            Rendezes();
+                            break;
+                        case 14:
                             Console.WriteLine("Kilépés...");
                             fut = false;
                             break;
@@ -221,12 +258,86 @@ namespace aruhaz_rendszer
             {
                 ossz += mennyisegek[i];
             }
-            Console.WriteLine($"Jelenleg {ossz} darab termék van a kosárban, és ezek közül {kosar.Count()} termék más.");
+            Console.WriteLine($"Jelenleg {ossz} darab termék van a kosárban, és ezek közül {kosar.Count()} db termék különböző.");
         }
 
         static void raktarKeszlet()
         {
+            for (int i = 0; i < raktarTermekek.Length; i++)
+            {
+                if (raktarMennyisegek[i] < 5)
+                {
+                    Console.WriteLine($"Vigyázz, a {raktarTermekek[i]} raktárban fellelhető száma kevesebb mint 5.");
+                }
+            }
+        }
 
+        static void kosarErtek()
+        {
+            int penz = 0;
+            for (int i = 0; i < kosar.Count; i++)
+            {
+                string termek = kosar[i];
+                int mennyiseg = mennyisegek[i];
+
+                int index = Array.IndexOf(raktarTermekek, termek);
+                if (index == -1)
+                {
+                    continue;
+                }
+
+                else
+                {
+                    penz += termekAr[index];
+                }
+            }
+            Console.WriteLine($"A kosarad értéke: {penz} ft");
+        }
+
+        static void Hozzaadas()
+        {
+            Console.Write("Add meg a termék nevét: ");
+            string termek = Console.ReadLine();
+            if (termek == null)
+            {
+                Console.WriteLine("A termék neve nem lehet üres!");
+                return;
+            }
+
+            Console.Write("Add meg a mennyiséget: ");
+            int mennyiseg = Convert.ToInt32(Console.ReadLine());
+
+            if (mennyiseg < 0)
+            {
+                Console.WriteLine("A mennyiség nem lehet negatív!");
+                return;
+            }
+
+            Console.Write("Add meg az árát: ");
+            int ar = Convert.ToInt32(Console.ReadLine());
+
+            if (ar < 0)
+            {
+                Console.WriteLine("A mennyiség nem lehet negatív!");
+                return;
+            }
+
+            if (raktarTermekek.Length < 11)
+            {
+                raktarTermekek = raktarTermekek.Concat(new string[] {termek}).ToArray();
+                raktarMennyisegek = raktarMennyisegek.Concat(new int[] { mennyiseg }).ToArray();
+                termekAr = termekAr.Concat(new int[] { ar }).ToArray();
+                Console.WriteLine("Termék hozzáadva a raktárhoz!");
+            } else
+            {
+                Console.WriteLine("A raktár meg van telve.");
+            }
+            
+        }
+
+        static void Rendezes()
+        {
+            Console.WriteLine("Termékek rendezése ár szerint:");
         }
     }
 }
