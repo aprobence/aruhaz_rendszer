@@ -260,7 +260,10 @@ namespace aruhaz_rendszer
             int ossz = 0;
             for (int i = 0; i < mennyisegek.Count; i++)
             {
-                ossz += mennyisegek[i];
+                if (mennyisegek[i] > 0)
+                {
+                    ossz += mennyisegek[i];
+                } 
             }
             Console.WriteLine($"Jelenleg {ossz} darab termék van a kosárban, és ezek közül {kosar.Count()} db termék különböző.");
         }
